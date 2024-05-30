@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture Photo</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Additional custom styles */
+        .container {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h2 class="text-center">Capture Photo with Name and ID</h2>
+                <form id="capture-form" onsubmit="event.preventDefault(); capturePhoto();">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id">ID:</label>
+                        <input type="text" class="form-control" id="id" name="id" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Capture 10 Photos</button>
+                        <button type="button" class="btn btn-success" onclick="detectFace()">Detect Face</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6 text-center">
+                <h4>Webcam Stream</h4>
+                <img src="{{ url_for('video_feed') }}" class="img-fluid" width="640" height="480">
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        // JavaScript code for capturing photo
+        let captureCount = 0;
+
+        function capturePhoto() {
+            const name = document.getElementById('name').value;
+            const id = document.getElementById('id').value;
+
+            if (!name || !id) {
+                alert("Name and ID are required!");
+                return;
+            }
+
+            fetch('/capture', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `name=${name}&id=${id}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                captureCount += 1;
+                if (captureCount < 10) {
+                    setTimeout(capturePhoto, 1000); // Capture photo every second
+                } else {
+                    alert("Captured 10 images!");
+                    captureCount = 0; // Reset for next capture session
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // JavaScript function for face detection
+        function detectFace() {
+            // Implement face detection logic here
+            alert("Face detection feature coming soon!");
+        }
+    </script>
+</body>
+</html>
