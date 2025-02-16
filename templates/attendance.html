@@ -1,0 +1,20 @@
+<!-- templates/attendance.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Take Attendance</title>
+</head>
+<body>
+    <form action="/submitattendance" method="post">
+        {% for student in students %}
+            <div>
+                <input type="checkbox" name="attendance" value="{{ student }}">
+                <label for="attendance">{{ student }}</label>
+            </div>
+        {% endfor %}
+        <button type="submit">Submit Attendance</button>
+    </form>
+</body>
+</html>

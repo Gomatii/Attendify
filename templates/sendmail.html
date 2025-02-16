@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Send Emails to Absent Students</title>
+    <!-- Include any necessary CSS or JavaScript libraries here -->
+</head>
+<body>
+    <h1>Send Emails to Absent Students</h1>
+    <form method="POST">
+        {% for student in students %}
+            <div>
+                <input type="checkbox" name="student_checkboxes" value="{{ student.id }}">
+                {{ student[1] }} ({{ student[2] }})
+            </div>
+        {% endfor %}
+        <br>
+        <button type="submit">Send Email</button>
+    </form>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
