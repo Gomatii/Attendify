@@ -110,5 +110,5 @@ This project is open-source under the MIT License.
 
 📧 Contact
 
-For queries or contributions, reach out via [your-email@example.com] or GitHub issues.
+For queries or contributions, reach out via GitHub issues.
 
